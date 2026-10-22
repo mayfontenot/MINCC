@@ -75,10 +75,10 @@ public class ConversationDao implements DaoStrong<Integer, Conversation> {
         ResultSet rs = ps.executeQuery();
         while (rs.next())
         {
-            List<Contact> recipients = conversationRecipientDao.select(key);
+            Contact[] recipients = (Contact[])conversationRecipientDao.select(key).toArray();
             List<Message> messages = messageDao.select(key);
         
-            value = new Conversation(key, rs.getString(2), recipients, messages);
+            value = new Conversation(key, rs.getString(2), recipients, messages, rs.getTimestamp(3));
         }
         
         return value;
@@ -94,16 +94,16 @@ public class ConversationDao implements DaoStrong<Integer, Conversation> {
     public List<Conversation> select() throws SQLException {
         List<Conversation> values = new ArrayList<>();
         
-        PreparedStatement ps = DatabaseManager.getConnection().prepareStatement("SELECT * FROM conversation");
+        PreparedStatement ps = DatabaseManager.getConnection().prepareStatement("SELECT * FROM conversation ORDER BY time_created DESC");
         
         ResultSet rs = ps.executeQuery();
         while (rs.next())
         {
             Integer conversationPK = rs.getInt(1);
-            List<Contact> recipients = conversationRecipientDao.select(conversationPK);
+            Contact[] recipients = (Contact[])conversationRecipientDao.select(conversationPK).toArray();
             List<Message> messages = messageDao.select(conversationPK);
         
-            values.add(new Conversation(conversationPK, rs.getString(2), recipients, messages));
+            values.add(new Conversation(conversationPK, rs.getString(2), recipients, messages, rs.getTimestamp(3)));
         }
         
         return values;

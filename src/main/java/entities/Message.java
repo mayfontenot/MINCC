@@ -1,15 +1,14 @@
 package entities;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Objects;
 
 /**
- *
  * @author May Fontenot (may@mayware.net)
  */
-public final class Message implements Serializable {
+public final class Message {
     private final int messageId;
     private final Contact sender;
     private final byte[] content;
@@ -18,14 +17,14 @@ public final class Message implements Serializable {
     private final String fileName;
     private final Timestamp timeReceived;
 
-    public Message(Contact sender, byte[] content, byte[] signature, String mimeType, String fileName, Timestamp timeReceived) {
+    public Message(Contact sender, byte[] content, byte[] signature, String mimeType) {
         messageId = hashCode();
         this.sender = sender;
         this.content = content;
         this.signature = signature;
         this.mimeType = mimeType;
-        this.fileName = fileName;
-        this.timeReceived = timeReceived;
+        this.fileName = null;
+        this.timeReceived = Timestamp.from(Instant.now());
     }
     
     public Message(int messageId, Contact sender, byte[] content, byte[] signature, String mimeType, String fileName, Timestamp timeReceived) {

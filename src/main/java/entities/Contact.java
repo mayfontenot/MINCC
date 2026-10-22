@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- *
  * @author May Fontenot (may@mayware.net)
  */
 public class Contact implements Serializable {

@@ -100,7 +100,7 @@ public class MessageDao implements DaoWeak<Integer, Integer, Message> {
     public List<Message> select(Integer foreignKey) throws SQLException {
         List<Message> values = new ArrayList<>();
         
-        PreparedStatement ps = DatabaseManager.getConnection().prepareStatement("SELECT * FROM message WHERE conversation_id = ?");
+        PreparedStatement ps = DatabaseManager.getConnection().prepareStatement("SELECT * FROM message WHERE conversation_id = ? ORDER BY time_received");
         ps.setInt(1, foreignKey);
         
         ResultSet rs = ps.executeQuery();

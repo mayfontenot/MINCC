@@ -90,7 +90,7 @@ public class ContactDao implements DaoStrong<Integer, Contact> {
     public List<Contact> select() throws SQLException {
         List<Contact> values = new ArrayList<>();
         
-        PreparedStatement ps = DatabaseManager.getConnection().prepareStatement("SELECT * FROM contact");
+        PreparedStatement ps = DatabaseManager.getConnection().prepareStatement("SELECT * FROM contact ORDER BY name");
         
         ResultSet rs = ps.executeQuery();
         while (rs.next())
